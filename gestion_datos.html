@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Saber Pro - Gestión de Datos</title>
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="gestion_datos.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">
+            <img src="../Logo-Sergio.png" alt="Logo Sergio Arboleda" class="navbar-logo-img">
+            SaberPRO<span> SERGIO ARBOLEDA</span>
+        </div>
+        <ul class="nav-links">
+            <li><a href="dashboard.html" class="nav-button">Análisis Personalizado de Estudiante</a></li>
+            <li><a href="promocion.html" class="nav-button">Análisis de Promoción</a></li>
+            <li><a href="gestion_datos.html" class="nav-button active">Gestión de Datos</a></li>
+        </ul>
+    </nav>
+
+    <main class="dashboard-container">
+        <header class="dashboard-header">
+            <div>
+                <h1>Gestión de Datos</h1>
+                <p>Configuración del banco de datos de la Universidad Sergio Arboleda.</p>
+            </div>
+            <div class="header-actions">
+                <button id="btnExportData" class="action-button secondary">⬇️ Exportar Base de Datos</button>
+            </div>
+        </header>
+
+        <!-- Tabs Navigation -->
+        <div class="tabs-container">
+            <button class="tab-button active" data-tab="bulkTab">📦 Carga Masiva de Promoción</button>
+            <button class="tab-button" data-tab="individualTab">👤 Registro Individual / Actualización</button>
+        </div>
+
+        <!-- Bulk Upload Tab -->
+        <div id="bulkTab" class="tab-content active">
+            <div class="card data-form-card">
+                <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px dashed rgba(0, 69, 124, 0.1); padding-bottom: 1.5rem; margin-bottom: 1.5rem;">
+                    <div>
+                        <h2 style="color: #00457C; font-size: 1.5rem; margin-bottom: 0.5rem;">Alimentación mediante Excel</h2>
+                        <p style="color: var(--text-secondary); font-size: 0.95rem;">Importa múltiples registros simultáneamente usando archivos .xlsx</p>
+                    </div>
+                    <button type="button" id="btnShowHelp" class="action-button secondary">¿Cómo organizar el Excel?</button>
+                </div>
+                
+                <div class="bulk-upload-zone">
+                    <div class="form-grid" style="align-items: end;">
+                        <div class="form-group">
+                            <label for="bulkPromocion">Seleccionar Promoción Destino *</label>
+                            <select id="bulkPromocion" required>
+                                <option value="2022-1">2022-1</option>
+                                <option value="2022-2">2022-2</option>
+                                <option value="2023-1" selected>2023-1</option>
+                                <option value="2023-2">2023-2</option>
+                                <option value="2024-1">2024-1</option>
+                                <option value="2024-2">2024-2</option>
+                                <option value="2025-1">2025-1</option>
+                                <option value="2025-2">2025-2</option>
+                                <option value="2026-1">2026-1</option>
+                                <option value="2026-2">2026-2</option>
+                                <option value="2027-1">2027-1</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="excelFile">Seleccionar Archivo</label>
+                            <div class="file-input-wrapper">
+                                <input type="file" id="excelFile" accept=".xlsx, .xls">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <button type="button" id="btnUploadExcel" class="action-button primary" style="width: 100%;">Procesar y Cargar Datos</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Individual Registration Tab -->
+        <div id="individualTab" class="tab-content">
+            <div class="card data-form-card">
+                <div class="search-section">
+                    <label for="searchEditStudent">Buscar estudiante para editar o eliminar:</label>
+                    <div class="search-wrapper">
+                        <input type="text" id="searchEditStudent" placeholder="Ej. Documento, Nombre o Apellido..." autocomplete="off">
+                        <ul id="searchEditResults" class="search-results hidden"></ul>
+                    </div>
+                </div>
+
+                <form id="studentForm">
+                    <h3 class="section-title">Información Académica</h3>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="docId">Documento de Identidad *</label>
+                            <input type="text" id="docId" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="nombres">Nombres *</label>
+                            <input type="text" id="nombres" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="apellidos">Apellidos *</label>
+                            <input type="text" id="apellidos" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="promocion">Promoción *</label>
+                            <select id="promocion" required>
+                                <option value="2022-1">2022-1</option>
+                                <option value="2022-2">2022-2</option>
+                                <option value="2023-1" selected>2023-1</option>
+                                <option value="2023-2">2023-2</option>
+                                <option value="2024-1">2024-1</option>
+                                <option value="2024-2">2024-2</option>
+                                <option value="2025-1">2025-1</option>
+                                <option value="2025-2">2025-2</option>
+                                <option value="2026-1">2026-1</option>
+                                <option value="2026-2">2026-2</option>
+                                <option value="2027-1">2027-1</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <h3 class="section-title">Resultados de Pruebas (Globales)</h3>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="global_saber11">Puntaje Saber 11</label>
+                            <input type="number" id="global_saber11" placeholder="0 - 500">
+                        </div>
+                        <div class="form-group">
+                            <label for="global_simulacro1">Puntaje Simulacro 1</label>
+                            <input type="number" id="global_simulacro1" placeholder="0 - 300">
+                        </div>
+                        <div class="form-group">
+                            <label for="global_simulacro2">Puntaje Simulacro 2</label>
+                            <input type="number" id="global_simulacro2" placeholder="0 - 300">
+                        </div>
+                        <div class="form-group">
+                            <label for="global_simulacro3">Puntaje Simulacro 3</label>
+                            <input type="number" id="global_simulacro3" placeholder="0 - 300">
+                        </div>
+                        <div class="form-group">
+                            <label for="global_saberPro">Puntaje Saber Pro</label>
+                            <input type="number" id="global_saberPro" placeholder="0 - 300">
+                        </div>
+                    </div>
+
+                    <h3 class="section-title">Desempeño por Competencia</h3>
+                    <p class="section-desc">Seleccione el nivel alcanzado en cada fase.</p>
+                    <div class="table-responsive">
+                        <table class="competencies-table">
+                            <thead>
+                                <tr>
+                                    <th>Competencia</th>
+                                    <th>Simulacro 1</th>
+                                    <th>Simulacro 2</th>
+                                    <th>Simulacro 3</th>
+                                    <th>Saber Pro</th>
+                                </tr>
+                            </thead>
+                            <tbody id="competenciesBody">
+                                <!-- Filas generadas dinámicamente -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" id="btnDelete" class="action-button danger hidden">🗑️ Eliminar Registro</button>
+                        <button type="button" id="btnCancel" class="action-button secondary">Cancelar</button>
+                        <button type="submit" class="action-button primary">Guardar Estudiante</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Modal Instrucciones Excel -->
+    <div id="excelHelpModal" class="modal hidden">
+        <div class="modal-content">
+            <span class="close-modal" id="closeModal">&times;</span>
+            <h2>Formato de Archivo Excel Requerido</h2>
+            <p>Para cargar estudiantes masivamente, tu archivo Excel (XLSX) debe tener <strong>exactamente</strong> los siguientes encabezados en la primera fila (fila 1). Cada fila subsiguiente representará a un estudiante.</p>
+            
+            <div class="table-responsive" style="margin-top: 1.5rem; overflow-x: auto;">
+                <table class="competencies-table" style="font-size: 0.85rem; min-width: 800px;">
+                    <thead>
+                        <tr>
+                            <th>DOCUMENTO</th>
+                            <th>NOMBRES</th>
+                            <th>APELLIDOS</th>
+                            <th>SABER11</th>
+                            <th>SIM1_GLOBAL</th>
+                            <th>SIM2_GLOBAL</th>
+                            <th>SIM3_GLOBAL</th>
+                            <th>SABERPRO_GLOBAL</th>
+                            <th>COMUNICACION_SIM1</th>
+                            ... (continúa para cada fase y competencia)
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1014858140</td>
+                            <td>MARÍA JOSÉ</td>
+                            <td>BARRAGÁN ZAPATA</td>
+                            <td>318</td>
+                            <td></td>
+                            <td>171.8</td>
+                            <td>161.7</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div style="margin-top: 1.5rem; background: #f8fafc; padding: 1rem; border-radius: 8px; border: 1px solid #e2e8f0;">
+                <h4 style="color: #00457C; margin-bottom: 0.5rem;">Lista completa de columnas requeridas:</h4>
+                <ul style="font-size: 0.85rem; columns: 2; list-style-position: inside; color: var(--text-secondary);">
+                    <li>DOCUMENTO</li>
+                    <li>NOMBRES</li>
+                    <li>APELLIDOS</li>
+                    <li>SABER11</li>
+                    <li>SIM1_GLOBAL</li>
+                    <li>SIM2_GLOBAL</li>
+                    <li>SIM3_GLOBAL</li>
+                    <li>SABERPRO_GLOBAL</li>
+                    <li>COMUNICACION_SIM1</li>
+                    <li>COMUNICACION_SIM2</li>
+                    <li>COMUNICACION_SIM3</li>
+                    <li>COMUNICACION_SABERPRO</li>
+                    <li>CIUDADANAS_SIM1</li>
+                    <li>CIUDADANAS_SIM2</li>
+                    <li>CIUDADANAS_SIM3</li>
+                    <li>CIUDADANAS_SABERPRO</li>
+                    <li>RAZONAMIENTO_SIM1</li>
+                    <li>RAZONAMIENTO_SIM2</li>
+                    <li>RAZONAMIENTO_SIM3</li>
+                    <li>RAZONAMIENTO_SABERPRO</li>
+                    <li>INGLES_SIM1</li>
+                    <li>INGLES_SIM2</li>
+                    <li>INGLES_SIM3</li>
+                    <li>INGLES_SABERPRO</li>
+                    <li>LECTURA_SIM1</li>
+                    <li>LECTURA_SIM2</li>
+                    <li>LECTURA_SIM3</li>
+                    <li>LECTURA_SABERPRO</li>
+                </ul>
+                <p style="margin-top: 1rem; font-size: 0.85rem; color: #ef4444;"><strong>Nota importante:</strong> Los nombres de las columnas deben estar exactamente así, en mayúsculas. Los campos vacíos serán ignorados o tomados como nulos. Los niveles pueden ser "NIVEL 1", "A1", etc.</p>
+            </div>
+            <div style="margin-top: 1.5rem; text-align: right;">
+                <button id="btnDownloadTemplate" class="action-button primary">Descargar Plantilla Vacía</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notificación Toast -->
+    <div id="toast" class="toast hidden">Registro guardado exitosamente.</div>
+
+    <script src="students_data.js"></script>
+    <script src="gestion_datos.js"></script>
+</body>
+</html>

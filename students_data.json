@@ -1,0 +1,835 @@
+[
+  {
+    "documento": "1014858140",
+    "nombres": "MARÍA JOSÉ",
+    "apellidos": "BARRAGÁN ZAPATA",
+    "scores": {
+      "global": {
+        "saber11": "318",
+        "simulacro1": null,
+        "simulacro2": 171.85,
+        "simulacro3": 161.772,
+        "saberPro": null
+      },
+      "comunicacion_escrita": {
+        "saber11": null,
+        "simulacro1": null,
+        "simulacro2": "NIVEL 3",
+        "simulacro3": "NIVEL 3",
+        "saberPro": null
+      },
+      "competencias_ciudadanas": {
+        "saber11": null,
+        "simulacro1": null,
+        "simulacro2": "NIVEL 2",
+        "simulacro3": "NIVEL 1",
+        "saberPro": null
+      },
+      "razonamiento_cuantitativo": {
+        "saber11": null,
+        "simulacro1": null,
+        "simulacro2": "NIVEL 3",
+        "simulacro3": "NIVEL 2",
+        "saberPro": null
+      },
+      "ingles": {
+        "saber11": null,
+        "simulacro1": null,
+        "simulacro2": "B2",
+        "simulacro3": "A2",
+        "saberPro": null
+      },
+      "lectura_critica": {
+        "saber11": null,
+        "simulacro1": null,
+        "simulacro2": "NIVEL 3",
+        "simulacro3": "NIVEL 4",
+        "saberPro": null
+      }
+    }
+  },
+  {
+    "documento": "1081787448",
+    "nombres": "YISSEL MARCELA",
+    "apellidos": "BARRETO ORTIZ",
+    "scores": {
+      "global": {
+        "saber11": "284",
+        "simulacro1": null,
+        "simulacro2": 145.15,
+        "simulacro3": 150.914,
+        "saberPro": null
+      },
+      "comunicacion_escrita": {
+        "saber11": null,
+        "simulacro1": null,
+        "simulacro2": "NIVEL 3",
+        "simulacro3": "NIVEL 3",
+        "saberPro": null
+      },
+      "competencias_ciudadanas": {
+        "saber11": null,
+        "simulacro1": null,
+        "simulacro2": "NIVEL 1",
+        "simulacro3": "NIVEL 3",
+        "saberPro": null
+      },
+      "razonamiento_cuantitativo": {
+        "saber11": null,
+        "simulacro1": null,
+        "simulacro2": "NIVEL 3",
+        "simulacro3": "NIVEL 3",
+        "saberPro": null
+      },
+      "ingles": {
+        "saber11": null,
+        "simulacro1": null,
+        "simulacro2": "A2",
+        "simulacro3": " A1",
+        "saberPro": null
+      },
+      "lectura_critica": {
+        "saber11": null,
+        "simulacro1": null,
+        "simulacro2": "NIVEL 3",
+        "simulacro3": "NIVEL 2",
+        "saberPro": null
+      }
+    }
+  },
+  {
+    "documento": "1041692603",
+    "nombres": "JUAN DIEGO",
+    "apellidos": "BAZURTO RIOS",
+    "scores": {
+      "global": {
+        "saber11": "307",
+        "simulacro1": null,
+        "simulacro2": 173.95,
+        "simulacro3": 156.628,
+        "saberPro": null
+      },
+      "comunicacion_escrita": {
+        "saber11": null,
+        "simulacro1": null,
+        "simulacro2": "NIVEL 3",
+        "simulacro3": "NIVEL 3",
+        "saberPro": null
+      },
+      "competencias_ciudadanas": {
+        "saber11": null,
+        "simulacro1": null,
+        "simulacro2": "NIVEL 3",
+        "simulacro3": "NIVEL 3",
+        "saberPro": null
+      },
+      "razonamiento_cuantitativo": {
+        "saber11": null,
+        "simulacro1": null,
+        "simulacro2": "NIVEL 3",
+        "simulacro3": "NIVEL 2",
+        "saberPro": null
+      },
+      "ingles": {
+        "saber11": null,
+        "simulacro1": null,
+        "simulacro2": "B2",
+        "simulacro3": " B1",
+        "saberPro": null
+      },
+      "lectura_critica": {
+        "saber11": null,
+        "simulacro1": null,
+        "simulacro2": "NIVEL 2",
+        "simulacro3": "NIVEL 1",
+        "saberPro": null
+      }
+    }
+  },
+  {
+    "documento": "1042848376",
+    "nombres": "GIAN LUIGI",
+    "apellidos": "LOMBARDI VARGAS",
+    "scores": {
+      "global": {
+        "saber11": "310",
+        "simulacro1": null,
+        "simulacro2": 134,
+        "simulacro3": 171.2,
+        "saberPro": null
+      },
+      "comunicacion_escrita": {
+        "saber11": null,
+        "simulacro1": null,
+        "simulacro2": "NIVEL 1",
+        "simulacro3": "NIVEL 3",
+        "saberPro": null
+      },
+      "competencias_ciudadanas": {
+        "saber11": null,
+        "simulacro1": null,
+        "simulacro2": "NIVEL 1",
+        "simulacro3": "NIVEL 3",
+        "saberPro": null
+      },
+      "razonamiento_cuantitativo": {
+        "saber11": null,
+        "simulacro1": null,
+        "simulacro2": "NIVEL 1",
+        "simulacro3": "NIVEL 2",
+        "saberPro": null
+      },
+      "ingles": {
+        "saber11": null,
+        "simulacro1": null,
+        "simulacro2": "A2",
+        "simulacro3": "B2",
+        "saberPro": null
+      },
+      "lectura_critica": {
+        "saber11": null,
+        "simulacro1": null,
+        "simulacro2": "NIVEL 3",
+        "simulacro3": "NIVEL 2",
+        "saberPro": null
+      }
+    }
+  },
+  {
+    "documento": "1047039178",
+    "nombres": "MANUEL DAVID",
+    "apellidos": "LÓPEZ GIRALDO",
+    "scores": {
+      "global": {
+        "saber11": "365",
+        "simulacro1": null,
+        "simulacro2": 193.15,
+        "simulacro3": 192.058,
+        "saberPro": null
+      },
+      "comunicacion_escrita": {
+        "saber11": null,
+        "simulacro1": null,
+        "simulacro2": "NIVEL 3",
+        "simulacro3": "NIVEL 3",
+        "saberPro": null
+      },
+      "competencias_ciudadanas": {
+        "saber11": null,
+        "simulacro1": null,
+        "simulacro2": "NIVEL 3",
+        "simulacro3": "NIVEL 4",
+        "saberPro": null
+      },
+      "razonamiento_cuantitativo": {
+        "saber11": null,
+        "simulacro1": null,
+        "simulacro2": "NIVEL 3",
+        "simulacro3": "NIVEL 1",
+        "saberPro": null
+      },
+      "ingles": {
+        "saber11": null,
+        "simulacro1": null,
+        "simulacro2": "B2",
+        "simulacro3": "B2",
+        "saberPro": null
+      },
+      "lectura_critica": {
+        "saber11": null,
+        "simulacro1": null,
+        "simulacro2": "NIVEL 4",
+        "simulacro3": "NIVEL 4",
+        "saberPro": null
+      }
+    }
+  },
+  {
+    "documento": "1004360919",
+    "nombres": "OSCAR ANDRES",
+    "apellidos": "MARTINEZ SUAREZ",
+    "scores": {
+      "global": {
+        "saber11": "312",
+        "simulacro1": null,
+        "simulacro2": 149.15,
+        "simulacro3": 241.086,
+        "saberPro": null
+      },
+      "comunicacion_escrita": {
+        "saber11": null,
+        "simulacro1": null,
+        "simulacro2": "NIVEL 3",
+        "simulacro3": "NIVEL 3",
+        "saberPro": null
+      },
+      "competencias_ciudadanas": {
+        "saber11": null,
+        "simulacro1": null,
+        "simulacro2": "NIVEL 1",
+        "simulacro3": "NIVEL 4",
+        "saberPro": null
+      },
+      "razonamiento_cuantitativo": {
+        "saber11": null,
+        "simulacro1": null,
+        "simulacro2": "NIVEL 3",
+        "simulacro3": "NIVEL 4",
+        "saberPro": null
+      },
+      "ingles": {
+        "saber11": null,
+        "simulacro1": null,
+        "simulacro2": "A1",
+        "simulacro3": "B2",
+        "saberPro": null
+      },
+      "lectura_critica": {
+        "saber11": null,
+        "simulacro1": null,
+        "simulacro2": "NIVEL 4",
+        "simulacro3": "NIVEL 4",
+        "saberPro": null
+      }
+    }
+  },
+  {
+    "documento": "1139424127",
+    "nombres": "SOFIA",
+    "apellidos": "MELÉNDEZ JIMENEZ",
+    "scores": {
+      "global": {
+        "saber11": "375",
+        "simulacro1": null,
+        "simulacro2": 176.4,
+        "simulacro3": 137.428,
+        "saberPro": null
+      },
+      "comunicacion_escrita": {
+        "saber11": null,
+        "simulacro1": null,
+        "simulacro2": "NIVEL 3",
+        "simulacro3": null,
+        "saberPro": null
+      },
+      "competencias_ciudadanas": {
+        "saber11": null,
+        "simulacro1": null,
+        "simulacro2": "NIVEL 1",
+        "simulacro3": "NIVEL 2",
+        "saberPro": null
+      },
+      "razonamiento_cuantitativo": {
+        "saber11": null,
+        "simulacro1": null,
+        "simulacro2": "NIVEL 1",
+        "simulacro3": "NIVEL 2",
+        "saberPro": null
+      },
+      "ingles": {
+        "saber11": null,
+        "simulacro1": null,
+        "simulacro2": "B2",
+        "simulacro3": "B2",
+        "saberPro": null
+      },
+      "lectura_critica": {
+        "saber11": null,
+        "simulacro1": null,
+        "simulacro2": "NIVEL 4",
+        "simulacro3": "NIVEL 3",
+        "saberPro": null
+      }
+    }
+  },
+  {
+    "documento": "1042247244",
+    "nombres": "JUAN SEBASTIAN",
+    "apellidos": "MONTES LOBO",
+    "scores": {
+      "global": {
+        "saber11": "281",
+        "simulacro1": null,
+        "simulacro2": 153.4,
+        "simulacro3": 154.6,
+        "saberPro": null
+      },
+      "comunicacion_escrita": {
+        "saber11": null,
+        "simulacro1": null,
+        "simulacro2": "NIVEL 3",
+        "simulacro3": "NIVEL 3",
+        "saberPro": null
+      },
+      "competencias_ciudadanas": {
+        "saber11": null,
+        "simulacro1": null,
+        "simulacro2": "NIVEL 3",
+        "simulacro3": "NIVEL 3",
+        "saberPro": null
+      },
+      "razonamiento_cuantitativo": {
+        "saber11": null,
+        "simulacro1": null,
+        "simulacro2": "NIVEL 2",
+        "simulacro3": "NIVEL 2",
+        "saberPro": null
+      },
+      "ingles": {
+        "saber11": null,
+        "simulacro1": null,
+        "simulacro2": "A2",
+        "simulacro3": " B1",
+        "saberPro": null
+      },
+      "lectura_critica": {
+        "saber11": null,
+        "simulacro1": null,
+        "simulacro2": "NIVEL 3",
+        "simulacro3": "NIVEL 1",
+        "saberPro": null
+      }
+    }
+  },
+  {
+    "documento": "1043123631",
+    "nombres": "DAVID FELIPE",
+    "apellidos": "OCHOA BONILLA",
+    "scores": {
+      "global": {
+        "saber11": "246",
+        "simulacro1": null,
+        "simulacro2": 104.25,
+        "simulacro3": 116.172,
+        "saberPro": null
+      },
+      "comunicacion_escrita": {
+        "saber11": null,
+        "simulacro1": null,
+        "simulacro2": "NIVEL 2",
+        "simulacro3": "NIVEL 3",
+        "saberPro": null
+      },
+      "competencias_ciudadanas": {
+        "saber11": null,
+        "simulacro1": null,
+        "simulacro2": "NIVEL 1",
+        "simulacro3": "NIVEL 2",
+        "saberPro": null
+      },
+      "razonamiento_cuantitativo": {
+        "saber11": null,
+        "simulacro1": null,
+        "simulacro2": "NIVEL 1",
+        "simulacro3": "NIVEL 1",
+        "saberPro": null
+      },
+      "ingles": {
+        "saber11": null,
+        "simulacro1": null,
+        "simulacro2": "A1",
+        "simulacro3": " A1",
+        "saberPro": null
+      },
+      "lectura_critica": {
+        "saber11": null,
+        "simulacro1": null,
+        "simulacro2": "NIVEL 2",
+        "simulacro3": "NIVEL 1",
+        "saberPro": null
+      }
+    }
+  },
+  {
+    "documento": "1041691588",
+    "nombres": "MIGUEL ANGEL",
+    "apellidos": "PRIMERA BARRETO",
+    "scores": {
+      "global": {
+        "saber11": "328",
+        "simulacro1": null,
+        "simulacro2": 168.15,
+        "simulacro3": 171.914,
+        "saberPro": null
+      },
+      "comunicacion_escrita": {
+        "saber11": null,
+        "simulacro1": null,
+        "simulacro2": "NIVEL 3",
+        "simulacro3": "NIVEL 3",
+        "saberPro": null
+      },
+      "competencias_ciudadanas": {
+        "saber11": null,
+        "simulacro1": null,
+        "simulacro2": "NIVEL 2",
+        "simulacro3": "NIVEL 3",
+        "saberPro": null
+      },
+      "razonamiento_cuantitativo": {
+        "saber11": null,
+        "simulacro1": null,
+        "simulacro2": "NIVEL 2",
+        "simulacro3": "NIVEL 1",
+        "saberPro": null
+      },
+      "ingles": {
+        "saber11": null,
+        "simulacro1": null,
+        "simulacro2": "B2",
+        "simulacro3": "B2",
+        "saberPro": null
+      },
+      "lectura_critica": {
+        "saber11": null,
+        "simulacro1": null,
+        "simulacro2": "NIVEL 3",
+        "simulacro3": "NIVEL 4",
+        "saberPro": null
+      }
+    }
+  },
+  {
+    "documento": "1044215054",
+    "nombres": "SERGGIO ANDRÉS",
+    "apellidos": "RICO RODRIGUEZ",
+    "scores": {
+      "global": {
+        "saber11": "374",
+        "simulacro1": null,
+        "simulacro2": 197.55,
+        "simulacro3": 211.77200000000002,
+        "saberPro": null
+      },
+      "comunicacion_escrita": {
+        "saber11": null,
+        "simulacro1": null,
+        "simulacro2": "NIVEL 3",
+        "simulacro3": "NIVEL 3",
+        "saberPro": null
+      },
+      "competencias_ciudadanas": {
+        "saber11": null,
+        "simulacro1": null,
+        "simulacro2": "NIVEL 3",
+        "simulacro3": "NIVEL 4",
+        "saberPro": null
+      },
+      "razonamiento_cuantitativo": {
+        "saber11": null,
+        "simulacro1": null,
+        "simulacro2": "NIVEL 4",
+        "simulacro3": "NIVEL 4",
+        "saberPro": null
+      },
+      "ingles": {
+        "saber11": null,
+        "simulacro1": null,
+        "simulacro2": "B2",
+        "simulacro3": "B2",
+        "saberPro": null
+      },
+      "lectura_critica": {
+        "saber11": null,
+        "simulacro1": null,
+        "simulacro2": "NIVEL 4",
+        "simulacro3": "NIVEL 4",
+        "saberPro": null
+      }
+    }
+  },
+  {
+    "documento": "1043964228",
+    "nombres": "SANTIAGO",
+    "apellidos": "RODRIGUEZ NARANJO",
+    "scores": {
+      "global": {
+        "saber11": "242",
+        "simulacro1": null,
+        "simulacro2": 146.55,
+        "simulacro3": 198.628,
+        "saberPro": null
+      },
+      "comunicacion_escrita": {
+        "saber11": null,
+        "simulacro1": null,
+        "simulacro2": "NIVEL 3",
+        "simulacro3": "NIVEL 3",
+        "saberPro": null
+      },
+      "competencias_ciudadanas": {
+        "saber11": null,
+        "simulacro1": null,
+        "simulacro2": "NIVEL 2",
+        "simulacro3": "NIVEL 3",
+        "saberPro": null
+      },
+      "razonamiento_cuantitativo": {
+        "saber11": null,
+        "simulacro1": null,
+        "simulacro2": "NIVEL 1",
+        "simulacro3": "NIVEL 4",
+        "saberPro": null
+      },
+      "ingles": {
+        "saber11": null,
+        "simulacro1": null,
+        "simulacro2": "B2",
+        "simulacro3": " B1",
+        "saberPro": null
+      },
+      "lectura_critica": {
+        "saber11": null,
+        "simulacro1": null,
+        "simulacro2": "NIVEL 2",
+        "simulacro3": "NIVEL 4",
+        "saberPro": null
+      }
+    }
+  },
+  {
+    "documento": "1042246240",
+    "nombres": "NELSON JUNIOR",
+    "apellidos": "ROMERO MAZA",
+    "scores": {
+      "global": {
+        "saber11": "312",
+        "simulacro1": null,
+        "simulacro2": 158.15,
+        "simulacro3": 146.658,
+        "saberPro": null
+      },
+      "comunicacion_escrita": {
+        "saber11": null,
+        "simulacro1": null,
+        "simulacro2": "NIVEL 3",
+        "simulacro3": "NIVEL 2",
+        "saberPro": null
+      },
+      "competencias_ciudadanas": {
+        "saber11": null,
+        "simulacro1": null,
+        "simulacro2": "NIVEL 3",
+        "simulacro3": "NIVEL 2",
+        "saberPro": null
+      },
+      "razonamiento_cuantitativo": {
+        "saber11": null,
+        "simulacro1": null,
+        "simulacro2": "NIVEL 1",
+        "simulacro3": "NIVEL 2",
+        "saberPro": null
+      },
+      "ingles": {
+        "saber11": null,
+        "simulacro1": null,
+        "simulacro2": "A2",
+        "simulacro3": "A2",
+        "saberPro": null
+      },
+      "lectura_critica": {
+        "saber11": null,
+        "simulacro1": null,
+        "simulacro2": "NIVEL 4",
+        "simulacro3": "NIVEL 3",
+        "saberPro": null
+      }
+    }
+  },
+  {
+    "documento": "1042245589",
+    "nombres": "SALOMÉ",
+    "apellidos": "SOTO GOMEZ",
+    "scores": {
+      "global": {
+        "saber11": "367",
+        "simulacro1": null,
+        "simulacro2": 192.3,
+        "simulacro3": 192.48600000000002,
+        "saberPro": null
+      },
+      "comunicacion_escrita": {
+        "saber11": null,
+        "simulacro1": null,
+        "simulacro2": "NIVEL 3",
+        "simulacro3": "NIVEL 3",
+        "saberPro": null
+      },
+      "competencias_ciudadanas": {
+        "saber11": null,
+        "simulacro1": null,
+        "simulacro2": "NIVEL 3",
+        "simulacro3": "NIVEL 4",
+        "saberPro": null
+      },
+      "razonamiento_cuantitativo": {
+        "saber11": null,
+        "simulacro1": null,
+        "simulacro2": "NIVEL 3",
+        "simulacro3": "NIVEL 3",
+        "saberPro": null
+      },
+      "ingles": {
+        "saber11": null,
+        "simulacro1": null,
+        "simulacro2": "B2",
+        "simulacro3": "B2",
+        "saberPro": null
+      },
+      "lectura_critica": {
+        "saber11": null,
+        "simulacro1": null,
+        "simulacro2": "NIVEL 4",
+        "simulacro3": "NIVEL 3",
+        "saberPro": null
+      }
+    }
+  },
+  {
+    "documento": "1048067630",
+    "nombres": "ALDAIR KALETH",
+    "apellidos": "TAMASCO AVILA",
+    "scores": {
+      "global": {
+        "saber11": 342,
+        "simulacro1": null,
+        "simulacro2": 188.65,
+        "simulacro3": 196.314,
+        "saberPro": null
+      },
+      "comunicacion_escrita": {
+        "saber11": null,
+        "simulacro1": null,
+        "simulacro2": "NIVEL 3",
+        "simulacro3": "NIVEL 3",
+        "saberPro": null
+      },
+      "competencias_ciudadanas": {
+        "saber11": null,
+        "simulacro1": null,
+        "simulacro2": "NIVEL 3",
+        "simulacro3": "NIVEL 4",
+        "saberPro": null
+      },
+      "razonamiento_cuantitativo": {
+        "saber11": null,
+        "simulacro1": null,
+        "simulacro2": "NIVEL 3",
+        "simulacro3": "NIVEL 3",
+        "saberPro": null
+      },
+      "ingles": {
+        "saber11": null,
+        "simulacro1": null,
+        "simulacro2": "B2",
+        "simulacro3": "B2",
+        "saberPro": null
+      },
+      "lectura_critica": {
+        "saber11": null,
+        "simulacro1": null,
+        "simulacro2": "NIVEL 3",
+        "simulacro3": "NIVEL 3",
+        "saberPro": null
+      }
+    }
+  },
+  {
+    "documento": "1042246654",
+    "nombres": "MOISÉS DAVID",
+    "apellidos": "VALENCIA ESTRADA",
+    "scores": {
+      "global": {
+        "saber11": 290,
+        "simulacro1": null,
+        "simulacro2": 136.7,
+        "simulacro3": 148.058,
+        "saberPro": null
+      },
+      "comunicacion_escrita": {
+        "saber11": null,
+        "simulacro1": null,
+        "simulacro2": "NIVEL 3",
+        "simulacro3": "NIVEL 3",
+        "saberPro": null
+      },
+      "competencias_ciudadanas": {
+        "saber11": null,
+        "simulacro1": null,
+        "simulacro2": "NIVEL 1",
+        "simulacro3": "NIVEL 2",
+        "saberPro": null
+      },
+      "razonamiento_cuantitativo": {
+        "saber11": null,
+        "simulacro1": null,
+        "simulacro2": "NIVEL 1",
+        "simulacro3": "NIVEL 3",
+        "saberPro": null
+      },
+      "ingles": {
+        "saber11": null,
+        "simulacro1": null,
+        "simulacro2": "A2",
+        "simulacro3": "A2",
+        "saberPro": null
+      },
+      "lectura_critica": {
+        "saber11": null,
+        "simulacro1": null,
+        "simulacro2": "NIVEL 3",
+        "simulacro3": "NIVEL 2",
+        "saberPro": null
+      }
+    }
+  },
+  {
+    "documento": "1047040403",
+    "nombres": "MARCELA",
+    "apellidos": "ZUÑIGA CASASBUENAS",
+    "scores": {
+      "global": {
+        "saber11": 304,
+        "simulacro1": null,
+        "simulacro2": 196.55,
+        "simulacro3": 195.028,
+        "saberPro": null
+      },
+      "comunicacion_escrita": {
+        "saber11": null,
+        "simulacro1": null,
+        "simulacro2": "NIVEL 3",
+        "simulacro3": "NIVEL 3",
+        "saberPro": null
+      },
+      "competencias_ciudadanas": {
+        "saber11": null,
+        "simulacro1": null,
+        "simulacro2": "NIVEL 3",
+        "simulacro3": "NIVEL 4",
+        "saberPro": null
+      },
+      "razonamiento_cuantitativo": {
+        "saber11": null,
+        "simulacro1": null,
+        "simulacro2": "NIVEL 3",
+        "simulacro3": "NIVEL 3",
+        "saberPro": null
+      },
+      "ingles": {
+        "saber11": null,
+        "simulacro1": null,
+        "simulacro2": "B2",
+        "simulacro3": "B2",
+        "saberPro": null
+      },
+      "lectura_critica": {
+        "saber11": null,
+        "simulacro1": null,
+        "simulacro2": "NIVEL 4",
+        "simulacro3": "NIVEL 3",
+        "saberPro": null
+      }
+    }
+  }
+]

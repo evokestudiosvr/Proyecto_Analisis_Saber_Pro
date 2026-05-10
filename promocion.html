@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SaberPRO - Análisis de Promoción</title>
+    <link rel="stylesheet" href="dashboard.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">
+            <img src="../Logo-Sergio.png" alt="Logo Sergio Arboleda" class="navbar-logo-img">
+            SaberPRO<span> SERGIO ARBOLEDA</span>
+        </div>
+        <ul class="nav-links">
+            <li><a href="dashboard.html" class="nav-button">Análisis Personalizado de Estudiante</a></li>
+            <li><a href="promocion.html" class="nav-button active">Análisis de Promoción</a></li>
+            <li><a href="gestion_datos.html" class="nav-button">Gestión de Datos</a></li>
+        </ul>
+    </nav>
+
+    <main class="dashboard-container">
+        <header class="dashboard-header" style="display: flex; justify-content: space-between; align-items: center;">
+            <div>
+                <h1 id="promoTitle">Rendimiento de la Promoción 2023-1</h1>
+                <p>Vista agregada y análisis grupal de los simulacros y proyecciones Saber Pro.</p>
+            </div>
+            <div class="promo-selector" style="display: flex; flex-direction: column; gap: 0.5rem;">
+                <label for="promoSelect" style="font-size: 0.875rem; color: #00457C; font-weight: 700; text-transform: uppercase;">Seleccionar Promoción:</label>
+                <select id="promoSelect" style="padding: 0.75rem 1rem; background: white; border: 2px solid #00457C; color: #00457C; border-radius: 8px; font-size: 1rem; outline: none; min-width: 200px; cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.05); font-weight: 600;">
+                    <option value="2022-1">2022-1</option>
+                    <option value="2022-2">2022-2</option>
+                    <option value="2023-1" selected>2023-1</option>
+                    <option value="2023-2">2023-2</option>
+                    <option value="2024-1">2024-1</option>
+                    <option value="2024-2">2024-2</option>
+                    <option value="2025-1">2025-1</option>
+                    <option value="2025-2">2025-2</option>
+                    <option value="2026-1">2026-1</option>
+                    <option value="2026-2">2026-2</option>
+                    <option value="2027-1">2027-1</option>
+                </select>
+                <button id="btnExportPromo" class="action-button secondary" style="padding: 0.5rem; font-size: 0.85rem; border: 1px solid #00457C; border-radius: 4px; background: white; color: #00457C; cursor: pointer; text-align: center;">⬇️ Exportar Promoción (Excel)</button>
+            </div>
+        </header>
+
+        <div id="promoEmptyState" class="empty-state hidden" style="margin-top: 2rem;">
+            <div class="empty-icon">🗂️</div>
+            <h2 id="emptyStateTitle">Datos no disponibles</h2>
+            <p>Aún no se ha cargado la base de datos para esta promoción.</p>
+        </div>
+
+        <div id="promocionContent" class="dashboard-grid">
+            <!-- Resumen Grupal -->
+            <div class="card profile-card">
+                <div class="profile-icon" style="font-size: 3rem;">👥</div>
+                <h2 id="promoSubtitle">Promoción 2023-1</h2>
+                <p id="totalStudents">Estudiantes Evaluados: Cargando...</p>
+                
+                <div class="score-summary">
+                    <div class="score-box">
+                        <span class="score-label">Promedio Saber 11</span>
+                        <strong id="avgSaber11">--</strong>
+                        <small>sobre 500</small>
+                    </div>
+                    <div class="score-box highlight tooltip-trigger">
+                        <span class="score-label">Promedio Proyectado</span>
+                        <strong id="avgProjected">--</strong>
+                        <small>sobre 300</small>
+                        <div class="tooltip-box">
+                            Representa el promedio de las proyecciones individuales de los estudiantes, contemplando el crecimiento esperado del 5% para la prueba real.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Evolución Line Chart -->
+            <div class="card chart-card">
+                <h3>Progreso Promedio (Puntaje Global)</h3>
+                <div class="chart-container">
+                    <canvas id="promoEvolutionChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Fortalezas y Debilidades Radar Grupal -->
+            <div class="card chart-card">
+                <h3>Nivel Promedio por Competencias</h3>
+                <div class="chart-container">
+                    <canvas id="promoRadarChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Análisis Descriptivo Grupal -->
+            <div class="card analysis-card">
+                <h3>Diagnóstico del Grupo</h3>
+                <div class="analysis-content">
+                    <div class="analysis-section strengths">
+                        <h4>🌟 Competencias Fuertes del Grupo</h4>
+                        <ul id="promoStrengthsList"></ul>
+                    </div>
+                    <div class="analysis-section weaknesses">
+                        <h4>⚠️ Áreas Críticas a Reforzar</h4>
+                        <ul id="promoWeaknessesList"></ul>
+                    </div>
+                    <div class="analysis-section recommendation">
+                        <h4>💡 Plan de Acción Sugerido</h4>
+                        <p id="promoRecommendationText"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="students_data.js"></script>
+    <script src="promocion.js"></script>
+</body>
+</html>
