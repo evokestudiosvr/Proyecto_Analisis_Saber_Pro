@@ -9,31 +9,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const dashboardContent = document.getElementById('dashboardContent');
     const emptyState = document.getElementById('emptyState');
 
-    // Mapeo de niveles cualitativos a valores cuantitativos (0 - 4 o 1 - 4)
-    const levelToNumber = (levelStr) => {
-        if (!levelStr) return 0;
-        const str = String(levelStr).trim().toUpperCase();
-        
-        // Niveles genéricos
-        if (str.includes('NIVEL 1')) return 1;
-        if (str.includes('NIVEL 2')) return 2;
-        if (str.includes('NIVEL 3')) return 3;
-        if (str.includes('NIVEL 4')) return 4;
-        
-        // Niveles de inglés
-        if (str === '-A1' || str === 'A-') return 0.5;
-        if (str === 'A1') return 1;
-        if (str === 'A2') return 2;
-        if (str === 'B1') return 3;
-        if (str === 'B2') return 4;
-        if (str === 'C1') return 5;
-        
-        // Si es un número (para puntajes globales)
-        if (!isNaN(parseFloat(str))) return parseFloat(str);
-
-        return 0;
-    };
-
     // Load data from localStorage or students_data.js
     const storedData = localStorage.getItem('saberProData');
     if (storedData) {
@@ -42,68 +17,67 @@ document.addEventListener('DOMContentLoaded', () => {
         studentsData = localStudentsData.filter(s => s.nombres || s.apellidos || s.documento);
     } else {
         console.error("Error: no se encontraron datos.");
-        searchInput.placeholder = 'Error al cargar datos';
-        searchInput.disabled = true;
+        if (searchInput) {
+            searchInput.placeholder = 'Error al cargar datos';
+            searchInput.disabled = true;
+        }
     }
 
+    if (searchInput) {
+        searchInput.addEventListener('input', (e) => {
+            const query = e.target.value.trim().toLowerCase();
+            searchResults.innerHTML = '';
+            
+            if (query.length < 2) {
+                searchResults.classList.add('hidden');
+                return;
+            }
 
-    searchInput.addEventListener('input', (e) => {
-        const query = e.target.value.trim().toLowerCase();
-        searchResults.innerHTML = '';
-        
-        if (query.length < 2) {
-            searchResults.classList.add('hidden');
-            return;
-        }
+            const filtered = studentsData.filter(s => {
+                const fullName = `${s.nombres || ''} ${s.apellidos || ''}`.toLowerCase();
+                const doc = String(s.documento || '').toLowerCase();
+                return fullName.includes(query) || doc.includes(query);
+            }).slice(0, 50);
 
-        const filtered = studentsData.filter(s => {
-            const fullName = `${s.nombres || ''} ${s.apellidos || ''}`.toLowerCase();
-            const doc = String(s.documento || '').toLowerCase();
-            return fullName.includes(query) || doc.includes(query);
-        }).slice(0, 50); // limit to 50 results
-
-        if (filtered.length > 0) {
-            filtered.forEach(student => {
-                const li = document.createElement('li');
-                li.textContent = `${student.nombres} ${student.apellidos} - C.C. ${student.documento}`;
-                li.addEventListener('click', () => {
-                    searchInput.value = `${student.nombres} ${student.apellidos}`;
-                    searchResults.classList.add('hidden');
-                    renderDashboard(student);
+            if (filtered.length > 0) {
+                filtered.forEach(student => {
+                    const li = document.createElement('li');
+                    li.textContent = `${student.nombres} ${student.apellidos} - C.C. ${student.documento}`;
+                    li.addEventListener('click', () => {
+                        searchInput.value = `${student.nombres} ${student.apellidos}`;
+                        searchResults.classList.add('hidden');
+                        renderDashboard(student);
+                    });
+                    searchResults.appendChild(li);
                 });
+                searchResults.classList.remove('hidden');
+            } else {
+                const li = document.createElement('li');
+                li.textContent = 'No se encontraron resultados';
+                li.className = 'no-results';
                 searchResults.appendChild(li);
-            });
-            searchResults.classList.remove('hidden');
-        } else {
-            const li = document.createElement('li');
-            li.textContent = 'No se encontraron resultados';
-            li.style.color = '#94a3b8';
-            li.style.cursor = 'default';
-            searchResults.appendChild(li);
-            searchResults.classList.remove('hidden');
-        }
-    });
+                searchResults.classList.remove('hidden');
+            }
+        });
+    }
 
     document.addEventListener('click', (e) => {
-        if (!searchInput.contains(e.target) && !searchResults.contains(e.target)) {
+        if (searchInput && !searchInput.contains(e.target) && !searchResults.contains(e.target)) {
             searchResults.classList.add('hidden');
         }
     });
 
     function renderDashboard(student) {
         currentStudent = student;
-        // Toggle visibility
         emptyState.classList.add('hidden');
         dashboardContent.classList.remove('hidden');
 
-        // Update basic info
         document.getElementById('studentName').textContent = `${student.nombres} ${student.apellidos}`;
         document.getElementById('studentDoc').textContent = `Doc: ${student.documento}`;
 
         const globalScores = student.scores.global;
         document.getElementById('saber11Score').textContent = globalScores.saber11 || 'N/A';
 
-        // Proyección Saber Pro (Avg de los simulacros si no hay saber pro final)
         const simScores = [
             globalScores.simulacro1,
             globalScores.simulacro2,
@@ -114,8 +88,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (globalScores.saberPro) {
             projected = Math.round(parseFloat(globalScores.saberPro));
         } else if (simScores.length > 0) {
-            // Promedio + pequeño bonus de mejora esperada (+5%)
-            const avg = simScores.reduce((a, b) => a + b, 0) / simScores.length;
+            const avg = APP_UTILS.average(simScores);
             projected = Math.round(avg * 1.05);
         }
         document.getElementById('projectedScore').textContent = projected;
@@ -127,16 +100,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function updateEvolutionChart(student) {
         const ctx = document.getElementById('evolutionChart').getContext('2d');
-        
-        // Destruir instancia anterior si existe
-        if (evolutionChartInstance) {
-            evolutionChartInstance.destroy();
-        }
+        if (evolutionChartInstance) evolutionChartInstance.destroy();
 
         const global = student.scores.global;
-        
-        // Saber 11 está sobre 500, simulacros sobre 300. Para compararlos en la gráfica 
-        // vamos a normalizar Saber 11 a base 300. (Saber11 * 300 / 500)
         let s11 = Math.round(parseFloat(global.saber11));
         const normalizedS11 = Math.round(s11 * 300 / 500);
 
@@ -194,18 +160,10 @@ document.addEventListener('DOMContentLoaded', () => {
         const ctx = document.getElementById('radarChart').getContext('2d');
         if (radarChartInstance) radarChartInstance.destroy();
 
-        const competencies = [
-            { id: 'comunicacion_escrita', label: 'Com. Escrita' },
-            { id: 'competencias_ciudadanas', label: 'Comp. Ciudadanas' },
-            { id: 'razonamiento_cuantitativo', label: 'Raz. Cuantitativo' },
-            { id: 'ingles', label: 'Inglés' },
-            { id: 'lectura_critica', label: 'Lectura Crítica' }
-        ];
-
-        const sim1Data = competencies.map(comp => levelToNumber(student.scores[comp.id].simulacro1) || null);
-        const sim2Data = competencies.map(comp => levelToNumber(student.scores[comp.id].simulacro2) || null);
-        const sim3Data = competencies.map(comp => levelToNumber(student.scores[comp.id].simulacro3) || null);
-        const spData = competencies.map(comp => levelToNumber(student.scores[comp.id].saberPro) || null);
+        const sim1Data = APP_UTILS.competencies.map(comp => APP_UTILS.levelToNumber(student.scores[comp.id].simulacro1) || null);
+        const sim2Data = APP_UTILS.competencies.map(comp => APP_UTILS.levelToNumber(student.scores[comp.id].simulacro2) || null);
+        const sim3Data = APP_UTILS.competencies.map(comp => APP_UTILS.levelToNumber(student.scores[comp.id].simulacro3) || null);
+        const spData = APP_UTILS.competencies.map(comp => APP_UTILS.levelToNumber(student.scores[comp.id].saberPro) || null);
 
         const hasSim1 = sim1Data.some(v => v !== null);
         const hasSim2 = sim2Data.some(v => v !== null);
@@ -223,11 +181,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const chartContainer = document.getElementById('radarChart').parentElement;
             msgEl = document.createElement('p');
             msgEl.id = 'missingPhasesMsg';
-            msgEl.style.fontSize = '0.85rem';
-            msgEl.style.color = '#ef4444';
-            msgEl.style.textAlign = 'center';
-            msgEl.style.marginTop = '0.5rem';
-            msgEl.style.fontWeight = '600';
+            msgEl.className = 'missing-data-msg';
             chartContainer.appendChild(msgEl);
         }
         msgEl.textContent = missingPhases.length > 0 ? `⚠️ Hacen falta datos de: ${missingPhases.join(', ')}` : '';
@@ -241,7 +195,7 @@ document.addEventListener('DOMContentLoaded', () => {
         radarChartInstance = new Chart(ctx, {
             type: 'radar',
             data: {
-                labels: competencies.map(c => c.label),
+                labels: APP_UTILS.competencies.map(c => c.shortLabel),
                 datasets: datasets
             },
             options: {
@@ -265,14 +219,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function updateAnalysis(student) {
-        const competencies = {
-            'Comunicación Escrita': student.scores.comunicacion_escrita,
-            'Competencias Ciudadanas': student.scores.competencias_ciudadanas,
-            'Razonamiento Cuantitativo': student.scores.razonamiento_cuantitativo,
-            'Inglés': student.scores.ingles,
-            'Lectura Crítica': student.scores.lectura_critica
-        };
-
         const strengthsList = document.getElementById('strengthsList');
         const weaknessesList = document.getElementById('weaknessesList');
         const recommendationText = document.getElementById('recommendationText');
@@ -283,26 +229,25 @@ document.addEventListener('DOMContentLoaded', () => {
         let strengths = [];
         let weaknesses = [];
 
-        Object.keys(competencies).forEach(key => {
-            const comp = competencies[key];
-            // Tomamos el simulacro más reciente o el nivel más alto
+        APP_UTILS.competencies.forEach(comp => {
+            const studentComp = student.scores[comp.id];
             const levels = [
-                levelToNumber(comp.simulacro1),
-                levelToNumber(comp.simulacro2),
-                levelToNumber(comp.simulacro3)
+                APP_UTILS.levelToNumber(studentComp.simulacro1),
+                APP_UTILS.levelToNumber(studentComp.simulacro2),
+                APP_UTILS.levelToNumber(studentComp.simulacro3)
             ].filter(v => v > 0);
 
             if (levels.length > 0) {
-                const latestLevel = levels[levels.length - 1]; // asumimos el último es el más reciente
+                const latestLevel = levels[levels.length - 1];
                 if (latestLevel >= 3) {
-                    strengths.push(`${key} (Nivel ${latestLevel})`);
+                    strengths.push(`${comp.label} (Nivel ${latestLevel})`);
                     const li = document.createElement('li');
-                    li.textContent = `${key}: Nivel sobresaliente.`;
+                    li.textContent = `${comp.label}: Nivel sobresaliente.`;
                     strengthsList.appendChild(li);
                 } else if (latestLevel <= 2) {
-                    weaknesses.push(`${key}`);
+                    weaknesses.push(`${comp.label}`);
                     const li = document.createElement('li');
-                    li.textContent = `${key}: Requiere atención (Nivel ${latestLevel}).`;
+                    li.textContent = `${comp.label}: Requiere atención (Nivel ${latestLevel}).`;
                     weaknessesList.appendChild(li);
                 }
             }
@@ -311,7 +256,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (strengths.length === 0) strengthsList.innerHTML = '<li>Aún no hay datos suficientes de fortalezas.</li>';
         if (weaknesses.length === 0) weaknessesList.innerHTML = '<li>Excelente progreso, no hay debilidades críticas.</li>';
 
-        // Generar recomendación
         if (weaknesses.length > 0) {
             recommendationText.textContent = `Saber Pro Sergio Arboleda te recomienda enfocar tus sesiones de estudio en los módulos de ${weaknesses.join(' y ')}. Te sugerimos realizar al menos 2 simulacros cortos por semana en estas áreas específicas.`;
         } else if (strengths.length > 0) {
@@ -326,46 +270,12 @@ document.addEventListener('DOMContentLoaded', () => {
     if (btnExportStudent) {
         btnExportStudent.addEventListener('click', () => {
             if (!currentStudent) return;
-            const flatData = [flattenStudentToRow(currentStudent)];
+            const flatData = [APP_UTILS.flattenStudentToRow(currentStudent)];
             const ws = XLSX.utils.json_to_sheet(flatData);
             const wb = XLSX.utils.book_new();
             XLSX.utils.book_append_sheet(wb, ws, "Análisis de Estudiante");
             XLSX.writeFile(wb, `Analisis_SaberPro_${currentStudent.documento}.xlsx`);
         });
-    }
-
-    function flattenStudentToRow(s) {
-        return {
-            "DOCUMENTO": s.documento,
-            "NOMBRES": s.nombres,
-            "APELLIDOS": s.apellidos,
-            "PROMOCION": s.promocion || '2023-1',
-            "SABER11": s.scores.global?.saber11 || '',
-            "SIM1_GLOBAL": s.scores.global?.simulacro1 || '',
-            "SIM2_GLOBAL": s.scores.global?.simulacro2 || '',
-            "SIM3_GLOBAL": s.scores.global?.simulacro3 || '',
-            "SABERPRO_GLOBAL": s.scores.global?.saberPro || '',
-            "COMUNICACION_SIM1": s.scores.comunicacion_escrita?.simulacro1 || '',
-            "COMUNICACION_SIM2": s.scores.comunicacion_escrita?.simulacro2 || '',
-            "COMUNICACION_SIM3": s.scores.comunicacion_escrita?.simulacro3 || '',
-            "COMUNICACION_SABERPRO": s.scores.comunicacion_escrita?.saberPro || '',
-            "CIUDADANAS_SIM1": s.scores.competencias_ciudadanas?.simulacro1 || '',
-            "CIUDADANAS_SIM2": s.scores.competencias_ciudadanas?.simulacro2 || '',
-            "CIUDADANAS_SIM3": s.scores.competencias_ciudadanas?.simulacro3 || '',
-            "CIUDADANAS_SABERPRO": s.scores.competencias_ciudadanas?.saberPro || '',
-            "RAZONAMIENTO_SIM1": s.scores.razonamiento_cuantitativo?.simulacro1 || '',
-            "RAZONAMIENTO_SIM2": s.scores.razonamiento_cuantitativo?.simulacro2 || '',
-            "RAZONAMIENTO_SIM3": s.scores.razonamiento_cuantitativo?.simulacro3 || '',
-            "RAZONAMIENTO_SABERPRO": s.scores.razonamiento_cuantitativo?.saberPro || '',
-            "INGLES_SIM1": s.scores.ingles?.simulacro1 || '',
-            "INGLES_SIM2": s.scores.ingles?.simulacro2 || '',
-            "INGLES_SIM3": s.scores.ingles?.simulacro3 || '',
-            "INGLES_SABERPRO": s.scores.ingles?.saberPro || '',
-            "LECTURA_SIM1": s.scores.lectura_critica?.simulacro1 || '',
-            "LECTURA_SIM2": s.scores.lectura_critica?.simulacro2 || '',
-            "LECTURA_SIM3": s.scores.lectura_critica?.simulacro3 || '',
-            "LECTURA_SABERPRO": s.scores.lectura_critica?.saberPro || ''
-        };
     }
 
 });

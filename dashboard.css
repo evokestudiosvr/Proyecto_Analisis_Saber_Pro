@@ -109,6 +109,7 @@ body {
     margin-bottom: 0.5rem;
     color: #00457C;
     font-weight: 800;
+    line-height: 1.2;
 }
 
 .dashboard-header p {
@@ -116,12 +117,13 @@ body {
     font-size: 1.1rem;
 }
 
-.student-search {
+.student-search, .promo-selector {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
     position: relative;
-    width: 350px;
+    width: 100%;
+    max-width: 350px;
 }
 
 .student-search label {
@@ -135,7 +137,7 @@ body {
     position: relative;
 }
 
-#studentSearchInput {
+#studentSearchInput, .promo-select-dropdown {
     width: 100%;
     padding: 0.75rem 1rem;
     background: white;
@@ -146,11 +148,16 @@ body {
     outline: none;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
     transition: all 0.3s ease;
+    cursor: pointer;
 }
 
-#studentSearchInput:focus {
+#studentSearchInput:focus, .promo-select-dropdown:focus {
     border-color: var(--highlight);
     box-shadow: 0 0 0 3px rgba(253, 242, 28, 0.2);
+}
+
+.promo-select-dropdown {
+    font-weight: 600;
 }
 
 .search-results {

@@ -3,26 +3,6 @@ document.addEventListener('DOMContentLoaded', () => {
     let promoRadarChartInstance = null;
     let currentPromoStudents = [];
 
-    // Helper functions
-    const levelToNumber = (levelStr) => {
-        if (!levelStr) return 0;
-        const str = String(levelStr).trim().toUpperCase();
-        if (str.includes('NIVEL 1')) return 1;
-        if (str.includes('NIVEL 2')) return 2;
-        if (str.includes('NIVEL 3')) return 3;
-        if (str.includes('NIVEL 4')) return 4;
-        if (str === '-A1' || str === 'A-') return 0.5;
-        if (str === 'A1') return 1;
-        if (str === 'A2') return 2;
-        if (str === 'B1') return 3;
-        if (str === 'B2') return 4;
-        if (str === 'C1') return 5;
-        if (!isNaN(parseFloat(str))) return parseFloat(str);
-        return 0;
-    };
-
-    const average = (arr) => arr.length === 0 ? 0 : arr.reduce((a, b) => a + b, 0) / arr.length;
-
     const promoSelect = document.getElementById('promoSelect');
     const promoTitle = document.getElementById('promoTitle');
     const promoSubtitle = document.getElementById('promoSubtitle');
@@ -31,11 +11,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const emptyStateTitle = document.getElementById('emptyStateTitle');
 
     function checkAndRender() {
-        const selectedPromo = promoSelect.value;
-        promoTitle.textContent = `Rendimiento de la Promoción ${selectedPromo}`;
-        promoSubtitle.textContent = `Promoción ${selectedPromo}`;
+        const selectedPromo = promoSelect ? promoSelect.value : '2023-1';
+        if (promoTitle) promoTitle.textContent = `Rendimiento de la Promoción ${selectedPromo}`;
+        if (promoSubtitle) promoSubtitle.textContent = `Promoción ${selectedPromo}`;
 
-        // Cargar de localStorage o base de datos local
         let studentsData = [];
         const storedData = localStorage.getItem('saberProData');
         if (storedData) {
@@ -44,7 +23,6 @@ document.addEventListener('DOMContentLoaded', () => {
             studentsData = localStudentsData;
         }
 
-        // Filtrar por la promoción seleccionada (por defecto 2023-1 si no tiene)
         const filteredStudents = studentsData.filter(s => {
             const studentPromo = s.promocion || '2023-1';
             return studentPromo === selectedPromo;
@@ -52,30 +30,29 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (filteredStudents.length > 0) {
             currentPromoStudents = filteredStudents;
-            promocionContent.classList.remove('hidden');
-            promoEmptyState.classList.add('hidden');
+            if (promocionContent) promocionContent.classList.remove('hidden');
+            if (promoEmptyState) promoEmptyState.classList.add('hidden');
             renderPromotionDashboard(filteredStudents);
         } else {
             currentPromoStudents = [];
-            promocionContent.classList.add('hidden');
-            promoEmptyState.classList.remove('hidden');
-            emptyStateTitle.textContent = `Datos no disponibles (${selectedPromo})`;
+            if (promocionContent) promocionContent.classList.add('hidden');
+            if (promoEmptyState) promoEmptyState.classList.remove('hidden');
+            if (emptyStateTitle) emptyStateTitle.textContent = `Datos no disponibles (${selectedPromo})`;
         }
     }
 
     if (promoSelect) {
         promoSelect.addEventListener('change', checkAndRender);
         checkAndRender();
-    } else {
-        if (typeof localStudentsData !== 'undefined') renderPromotionDashboard(localStudentsData);
+    } else if (typeof localStudentsData !== 'undefined') {
+        renderPromotionDashboard(localStudentsData);
     }
 
     function renderPromotionDashboard(data) {
-        // Filter valid students
         const validStudents = data.filter(s => s.nombres || s.apellidos);
-        document.getElementById('totalStudents').textContent = `Estudiantes Evaluados: ${validStudents.length}`;
+        const totalStudentsEl = document.getElementById('totalStudents');
+        if (totalStudentsEl) totalStudentsEl.textContent = `Estudiantes Evaluados: ${validStudents.length}`;
 
-        // Aggregate Global Scores
         let saber11Scores = [];
         let sim1Scores = [];
         let sim2Scores = [];
@@ -105,21 +82,23 @@ document.addEventListener('DOMContentLoaded', () => {
             } else {
                 const sims = [s1, s2, s3].filter(v => !isNaN(v));
                 if (sims.length > 0) {
-                    projectedScores.push((sims.reduce((a,b)=>a+b,0)/sims.length) * 1.05);
+                    projectedScores.push(APP_UTILS.average(sims) * 1.05);
                 }
             }
         });
 
-        // Basic Info
-        document.getElementById('avgSaber11').textContent = saber11Scores.length > 0 ? Math.round(average(saber11Scores)) : 'N/A';
-        document.getElementById('avgProjected').textContent = projectedScores.length > 0 ? Math.round(average(projectedScores)) : 'N/A';
+        const avgSaber11El = document.getElementById('avgSaber11');
+        const avgProjectedEl = document.getElementById('avgProjected');
+
+        if (avgSaber11El) avgSaber11El.textContent = saber11Scores.length > 0 ? Math.round(APP_UTILS.average(saber11Scores)) : 'N/A';
+        if (avgProjectedEl) avgProjectedEl.textContent = projectedScores.length > 0 ? Math.round(APP_UTILS.average(projectedScores)) : 'N/A';
 
         updatePromoEvolutionChart({
-            s11: average(saber11Scores),
-            s1: average(sim1Scores),
-            s2: average(sim2Scores),
-            s3: average(sim3Scores),
-            sp: average(saberProScores)
+            s11: APP_UTILS.average(saber11Scores),
+            s1: APP_UTILS.average(sim1Scores),
+            s2: APP_UTILS.average(sim2Scores),
+            s3: APP_UTILS.average(sim3Scores),
+            sp: APP_UTILS.average(saberProScores)
         }, saber11Scores.length > 0, saberProScores.length > 0);
 
         updatePromoRadarChart(validStudents);
@@ -127,7 +106,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function updatePromoEvolutionChart(avgs, hasS11, hasSP) {
-        const ctx = document.getElementById('promoEvolutionChart').getContext('2d');
+        const evolutionEl = document.getElementById('promoEvolutionChart');
+        if (!evolutionEl) return;
+        const ctx = evolutionEl.getContext('2d');
         if (promoEvolutionChartInstance) promoEvolutionChartInstance.destroy();
 
         let s11Norm = hasS11 ? Math.round(avgs.s11 * 300 / 500) : null;
@@ -183,32 +164,28 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function updatePromoRadarChart(validStudents) {
-        const ctx = document.getElementById('promoRadarChart').getContext('2d');
+        const radarEl = document.getElementById('promoRadarChart');
+        if (!radarEl) return;
+        const ctx = radarEl.getContext('2d');
         if (promoRadarChartInstance) promoRadarChartInstance.destroy();
-
-        const competencies = [
-            { id: 'comunicacion_escrita', label: 'Com. Escrita' },
-            { id: 'competencias_ciudadanas', label: 'Comp. Ciudadanas' },
-            { id: 'razonamiento_cuantitativo', label: 'Raz. Cuantitativo' },
-            { id: 'ingles', label: 'Inglés' },
-            { id: 'lectura_critica', label: 'Lectura Crítica' }
-        ];
 
         let sim1Data = [], sim2Data = [], sim3Data = [], spData = [];
 
-        competencies.forEach(comp => {
+        APP_UTILS.competencies.forEach(comp => {
             let s1Vals = [], s2Vals = [], s3Vals = [], spVals = [];
             validStudents.forEach(student => {
                 const scores = student.scores[comp.id];
-                let v1 = levelToNumber(scores.simulacro1); if (v1 > 0) s1Vals.push(v1);
-                let v2 = levelToNumber(scores.simulacro2); if (v2 > 0) s2Vals.push(v2);
-                let v3 = levelToNumber(scores.simulacro3); if (v3 > 0) s3Vals.push(v3);
-                let vp = levelToNumber(scores.saberPro); if (vp > 0) spVals.push(vp);
+                if (scores) {
+                    let v1 = APP_UTILS.levelToNumber(scores.simulacro1); if (v1 > 0) s1Vals.push(v1);
+                    let v2 = APP_UTILS.levelToNumber(scores.simulacro2); if (v2 > 0) s2Vals.push(v2);
+                    let v3 = APP_UTILS.levelToNumber(scores.simulacro3); if (v3 > 0) s3Vals.push(v3);
+                    let vp = APP_UTILS.levelToNumber(scores.saberPro); if (vp > 0) spVals.push(vp);
+                }
             });
-            sim1Data.push(s1Vals.length > 0 ? average(s1Vals) : null);
-            sim2Data.push(s2Vals.length > 0 ? average(s2Vals) : null);
-            sim3Data.push(s3Vals.length > 0 ? average(s3Vals) : null);
-            spData.push(spVals.length > 0 ? average(spVals) : null);
+            sim1Data.push(s1Vals.length > 0 ? APP_UTILS.average(s1Vals) : null);
+            sim2Data.push(s2Vals.length > 0 ? APP_UTILS.average(s2Vals) : null);
+            sim3Data.push(s3Vals.length > 0 ? APP_UTILS.average(s3Vals) : null);
+            spData.push(spVals.length > 0 ? APP_UTILS.average(spVals) : null);
         });
 
         const hasSim1 = sim1Data.some(v => v !== null);
@@ -224,14 +201,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
         let msgEl = document.getElementById('promoMissingPhasesMsg');
         if (!msgEl) {
-            const chartContainer = document.getElementById('promoRadarChart').parentElement;
+            const chartContainer = radarEl.parentElement;
             msgEl = document.createElement('p');
             msgEl.id = 'promoMissingPhasesMsg';
-            msgEl.style.fontSize = '0.85rem';
-            msgEl.style.color = '#ef4444';
-            msgEl.style.textAlign = 'center';
-            msgEl.style.marginTop = '0.5rem';
-            msgEl.style.fontWeight = '600';
+            msgEl.className = 'missing-data-msg';
             chartContainer.appendChild(msgEl);
         }
         msgEl.textContent = missingPhases.length > 0 ? `⚠️ Hacen falta datos de: ${missingPhases.join(', ')}` : '';
@@ -245,7 +218,7 @@ document.addEventListener('DOMContentLoaded', () => {
         promoRadarChartInstance = new Chart(ctx, {
             type: 'radar',
             data: {
-                labels: competencies.map(c => c.label),
+                labels: APP_UTILS.competencies.map(c => c.shortLabel),
                 datasets: datasets
             },
             options: {
@@ -269,32 +242,26 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function updatePromoAnalysis(validStudents) {
-        const competencies = [
-            { id: 'comunicacion_escrita', label: 'Comunicación Escrita' },
-            { id: 'competencias_ciudadanas', label: 'Competencias Ciudadanas' },
-            { id: 'razonamiento_cuantitativo', label: 'Razonamiento Cuantitativo' },
-            { id: 'ingles', label: 'Inglés' },
-            { id: 'lectura_critica', label: 'Lectura Crítica' }
-        ];
-
         let compAverages = [];
 
-        competencies.forEach(comp => {
+        APP_UTILS.competencies.forEach(comp => {
             let maxLevels = [];
             validStudents.forEach(student => {
                 const scores = student.scores[comp.id];
-                const levels = [
-                    levelToNumber(scores.simulacro1),
-                    levelToNumber(scores.simulacro2),
-                    levelToNumber(scores.simulacro3)
-                ].filter(v => v > 0);
-                if (levels.length > 0) {
-                    maxLevels.push(Math.max(...levels));
+                if (scores) {
+                    const levels = [
+                        APP_UTILS.levelToNumber(scores.simulacro1),
+                        APP_UTILS.levelToNumber(scores.simulacro2),
+                        APP_UTILS.levelToNumber(scores.simulacro3)
+                    ].filter(v => v > 0);
+                    if (levels.length > 0) {
+                        maxLevels.push(Math.max(...levels));
+                    }
                 }
             });
             compAverages.push({
                 label: comp.label,
-                avg: average(maxLevels)
+                avg: APP_UTILS.average(maxLevels)
             });
         });
 
@@ -302,41 +269,44 @@ document.addEventListener('DOMContentLoaded', () => {
         const weaknessesList = document.getElementById('promoWeaknessesList');
         const recommendationText = document.getElementById('promoRecommendationText');
         
-        strengthsList.innerHTML = '';
-        weaknessesList.innerHTML = '';
+        if (strengthsList) strengthsList.innerHTML = '';
+        if (weaknessesList) weaknessesList.innerHTML = '';
 
         let strengths = [];
         let weaknesses = [];
 
-        // Definimos fortalezas grupal como promedio > 3.0, y debilidad como < 2.5
         compAverages.forEach(c => {
             if (c.avg >= 3.0) {
                 strengths.push(c.label);
-                const li = document.createElement('li');
-                li.innerHTML = `<strong>${c.label}</strong> (Promedio: ${c.avg.toFixed(1)}) - Excelente consolidación grupal.`;
-                strengthsList.appendChild(li);
+                if (strengthsList) {
+                    const li = document.createElement('li');
+                    li.innerHTML = `<strong>${c.label}</strong> (Promedio: ${c.avg.toFixed(1)}) - Excelente consolidación grupal.`;
+                    strengthsList.appendChild(li);
+                }
             } else if (c.avg <= 2.5) {
                 weaknesses.push(c.label);
-                const li = document.createElement('li');
-                li.innerHTML = `<strong>${c.label}</strong> (Promedio: ${c.avg.toFixed(1)}) - Rendimiento por debajo de lo esperado.`;
-                weaknessesList.appendChild(li);
+                if (weaknessesList) {
+                    const li = document.createElement('li');
+                    li.innerHTML = `<strong>${c.label}</strong> (Promedio: ${c.avg.toFixed(1)}) - Rendimiento por debajo de lo esperado.`;
+                    weaknessesList.appendChild(li);
+                }
             }
         });
 
-        if (strengths.length === 0) strengthsList.innerHTML = '<li>Aún no hay competencias en nivel de excelencia (Promedio > 3.0).</li>';
-        if (weaknesses.length === 0) weaknessesList.innerHTML = '<li>Excelente progreso general, ninguna competencia está en nivel crítico.</li>';
+        if (strengthsList && strengths.length === 0) strengthsList.innerHTML = '<li>Aún no hay competencias en nivel de excelencia (Promedio > 3.0).</li>';
+        if (weaknessesList && weaknesses.length === 0) weaknessesList.innerHTML = '<li>Excelente progreso general, ninguna competencia está en nivel crítico.</li>';
 
-        // Generar recomendación institucional
-        if (weaknesses.length > 0) {
-            recommendationText.textContent = `A nivel institucional, se sugiere dirigir esfuerzos de tutorías grupales y talleres de refuerzo intensivo en los módulos de ${weaknesses.join(' y ')}. Esto permitirá equilibrar el rendimiento de la cohorte antes del examen final Saber Pro.`;
-        } else if (strengths.length > 0) {
-            recommendationText.textContent = `La cohorte presenta un rendimiento muy sólido y parejo. Se recomienda continuar con los simulacros programados y enfocarse en simulaciones de examen real para mejorar la resistencia y gestión del tiempo de los estudiantes.`;
-        } else {
-            recommendationText.textContent = `Los estudiantes se encuentran en un nivel medio. Se recomienda incrementar la frecuencia de uso del simulador para detectar tendencias más claras en las próximas semanas.`;
+        if (recommendationText) {
+            if (weaknesses.length > 0) {
+                recommendationText.textContent = `A nivel institucional, se sugiere dirigir esfuerzos de tutorías grupales y talleres de refuerzo intensivo en los módulos de ${weaknesses.join(' y ')}. Esto permitirá equilibrar el rendimiento de la cohorte antes del examen final Saber Pro.`;
+            } else if (strengths.length > 0) {
+                recommendationText.textContent = `La cohorte presenta un rendimiento muy sólido y parejo. Se recomienda continuar con los simulacros programados y enfocarse en simulaciones de examen real para mejorar la resistencia y gestión del tiempo de los estudiantes.`;
+            } else {
+                recommendationText.textContent = `Los estudiantes se encuentran en un nivel medio. Se recomienda incrementar la frecuencia de uso del simulador para detectar tendencias más claras en las próximas semanas.`;
+            }
         }
     }
 
-    // Exportar Promoción a Excel
     const btnExportPromo = document.getElementById('btnExportPromo');
     if (btnExportPromo) {
         btnExportPromo.addEventListener('click', () => {
@@ -345,45 +315,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
             const selectedPromo = promoSelect.value;
-            const flatData = currentPromoStudents.map(flattenStudentToRow);
+            const flatData = currentPromoStudents.map(APP_UTILS.flattenStudentToRow);
             const ws = XLSX.utils.json_to_sheet(flatData);
             const wb = XLSX.utils.book_new();
             XLSX.utils.book_append_sheet(wb, ws, `Promoción ${selectedPromo}`);
             XLSX.writeFile(wb, `Analisis_SaberPro_Promocion_${selectedPromo}.xlsx`);
         });
-    }
-
-    function flattenStudentToRow(s) {
-        return {
-            "DOCUMENTO": s.documento,
-            "NOMBRES": s.nombres,
-            "APELLIDOS": s.apellidos,
-            "PROMOCION": s.promocion || '2023-1',
-            "SABER11": s.scores.global?.saber11 || '',
-            "SIM1_GLOBAL": s.scores.global?.simulacro1 || '',
-            "SIM2_GLOBAL": s.scores.global?.simulacro2 || '',
-            "SIM3_GLOBAL": s.scores.global?.simulacro3 || '',
-            "SABERPRO_GLOBAL": s.scores.global?.saberPro || '',
-            "COMUNICACION_SIM1": s.scores.comunicacion_escrita?.simulacro1 || '',
-            "COMUNICACION_SIM2": s.scores.comunicacion_escrita?.simulacro2 || '',
-            "COMUNICACION_SIM3": s.scores.comunicacion_escrita?.simulacro3 || '',
-            "COMUNICACION_SABERPRO": s.scores.comunicacion_escrita?.saberPro || '',
-            "CIUDADANAS_SIM1": s.scores.competencias_ciudadanas?.simulacro1 || '',
-            "CIUDADANAS_SIM2": s.scores.competencias_ciudadanas?.simulacro2 || '',
-            "CIUDADANAS_SIM3": s.scores.competencias_ciudadanas?.simulacro3 || '',
-            "CIUDADANAS_SABERPRO": s.scores.competencias_ciudadanas?.saberPro || '',
-            "RAZONAMIENTO_SIM1": s.scores.razonamiento_cuantitativo?.simulacro1 || '',
-            "RAZONAMIENTO_SIM2": s.scores.razonamiento_cuantitativo?.simulacro2 || '',
-            "RAZONAMIENTO_SIM3": s.scores.razonamiento_cuantitativo?.simulacro3 || '',
-            "RAZONAMIENTO_SABERPRO": s.scores.razonamiento_cuantitativo?.saberPro || '',
-            "INGLES_SIM1": s.scores.ingles?.simulacro1 || '',
-            "INGLES_SIM2": s.scores.ingles?.simulacro2 || '',
-            "INGLES_SIM3": s.scores.ingles?.simulacro3 || '',
-            "INGLES_SABERPRO": s.scores.ingles?.saberPro || '',
-            "LECTURA_SIM1": s.scores.lectura_critica?.simulacro1 || '',
-            "LECTURA_SIM2": s.scores.lectura_critica?.simulacro2 || '',
-            "LECTURA_SIM3": s.scores.lectura_critica?.simulacro3 || '',
-            "LECTURA_SABERPRO": s.scores.lectura_critica?.saberPro || ''
-        };
     }
 });
